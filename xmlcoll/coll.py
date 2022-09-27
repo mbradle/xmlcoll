@@ -1,3 +1,4 @@
+import io, requests
 from lxml import etree
 import xmlcoll.base as xb
 
@@ -19,7 +20,7 @@ class Item(xb.Properties):
         """Method to retrieve name of item.
 
         Return:
-            :obj:`str`: The name of the same.
+            :obj:`str`: The name of the item.
 
         """
 
@@ -180,3 +181,24 @@ class Collection(xb.Properties):
                     my_props[tup] = prop.text
 
             my_object.update_properties(my_props)
+
+    def validate(self, file):
+        """Method to validate a collection XML file.
+
+        Args:
+            ``file`` (:obj:`str`) The name of the XML file to validate.
+
+        Returns:
+            An error message if invalid and nothing if valid.
+
+        """
+
+        parser = etree.XMLParser(remove_blank_text=True)
+        xml = etree.parse(file, parser)
+        xml.xinclude()
+
+        url = "https://osf.io/t26k4/download"
+        xmlschema_doc = etree.parse(io.BytesIO(requests.get(url).content))
+
+        xml_validator = etree.XMLSchema(xmlschema_doc)
+        xml_validator.assert_(xml)
