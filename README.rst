@@ -9,8 +9,8 @@ retrieve data from `XML <https://www.w3.org/XML/>`_.
 Installation
 ------------
 
-Install from `PyPI <https://pypi.org/project/xmlcoll>`_ with pip by
-typing in your favorite terminal::
+Install from `PyPI <https://pypi.org/project/xmlcoll>`_ with pip by typing
+in your favorite terminal::
 
     $ pip install xmlcoll
 
