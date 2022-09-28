@@ -19,7 +19,7 @@ Usage
 -----
 
 To get familiar with xmlcoll, please see the tutorial Jupyter
-`notebooks <https://github.com/mbradle/xmlcoll_tutorial>`_.
+`notebook <https://github.com/mbradle/xmlcoll_tutorial>`_.
 
 Authors
 -------
