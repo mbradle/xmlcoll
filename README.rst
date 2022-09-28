@@ -1,10 +1,12 @@
 Overview
 ========
 
-xmlcoll is a python package for working with heterogeneous data about samples.
-The data are stored as `properties` in a dictionary with keys given by a
+xmlcoll is a python package for working with collections of items.
+The items have heterogeneous data stored as
+`properties` in a dictionary with keys given by a
 name and optional tags.  The package API has routines to write data to and
-retrieve data from `XML <https://www.w3.org/XML/>`_.
+retrieve data from `XML <https://www.w3.org/XML/>`_ and to validate that
+XML against a schema..
 
 Installation
 ------------
