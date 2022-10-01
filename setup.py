@@ -54,6 +54,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         # Indicate who your project is intended for
         "Intended Audience :: Information Technology",
+        "Intended Audience :: End Users/Desktop",
         "Topic :: Database",
         "Topic :: Text Processing :: Markup :: XML",
         # Pick your license as you wish
@@ -66,7 +67,7 @@ setup(
     # project page. What does your project relate to?
     #
     # Note that this is a string of words separated by whitespace, not a list.
-    keywords="astronomy nuclear astrophysics cosmochemistry geology",  # Optional
+    keywords="data xml database collection",  # Optional
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().
     #
