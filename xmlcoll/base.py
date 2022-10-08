@@ -1,4 +1,5 @@
-max_tags = 5   # Maximum number of tags.
+max_tags = 5  # Maximum number of tags.
+
 
 class Properties:
     """A class for storing and retrieving properties."""
@@ -32,7 +33,6 @@ class Properties:
 
         for prop in properties:
             if isinstance(prop, tuple):
-                assert(len(prop) <= max_tags + 1)
+                assert len(prop) <= max_tags + 1
 
         self.properties = {**self.properties, **properties}
-

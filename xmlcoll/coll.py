@@ -1,6 +1,7 @@
-import io, requests
-from lxml import etree
+import os
 import xmlcoll.base as xb
+from lxml import etree
+
 
 class Item(xb.Properties):
     """A class for storing and retrieving data about a data item.
@@ -197,8 +198,8 @@ class Collection(xb.Properties):
         xml = etree.parse(file, parser)
         xml.xinclude()
 
-        url = "https://osf.io/t26k4/download"
-        xmlschema_doc = etree.parse(io.BytesIO(requests.get(url).content))
+        schema_file = os.path.join(os.path.dirname(__file__), "xsd_pub/xmlcoll.xsd")
+        xmlschema_doc = etree.parse(schema_file)
 
         xml_validator = etree.XMLSchema(xmlschema_doc)
         xml_validator.assert_(xml)
