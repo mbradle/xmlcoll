@@ -27,6 +27,11 @@ Authors
 
 - Bradley S. Meyer <mbradle@g.clemson.edu>
 
+Documentation
+-------------
+
+The project documentation is available at `<https://xmlcoll.readthedocs.io>`_.
+
 Contribute
 ----------
 

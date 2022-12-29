@@ -4,6 +4,14 @@ Changelog
 All notable changes to this project will be documented in this file.  This
 project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.html>`_.
 
+
+Version 1.3.0
+-------------
+
+New:
+
+  * A link to the readthedocs page has been added for more visibility from PYPI     and GitHub.
+
 Version 1.2.0
 -------------
 
