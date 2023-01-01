@@ -12,6 +12,10 @@ New:
 
   * A link to the readthedocs page has been added for more visibility from PYPI     and GitHub.
 
+Fix:
+
+  * An extraneous and non-functioning search link has been removed.
+
 Version 1.2.0
 -------------
 
