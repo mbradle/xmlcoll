@@ -59,7 +59,7 @@ class Collection(xb.Properties):
         self.collection[item.get_name()] = item
 
     def remove_item(self, item):
-        """Method to remove a item from a item collection.
+        """Method to remove an item from a item collection.
 
         Args:
             ``item`` (:obj:`xmlcoll.coll.Item`) The item to be removed.
@@ -95,7 +95,7 @@ class Collection(xb.Properties):
         Returns:
             :obj:`pandas.DataFrame`: A pandas dataframe containing the collection
             data.  Columns are labeled by a string formed by concatenating
-            propoery names and tags separated by the chosen delimiter.
+            property names and tags separated by the chosen delimiter.
 
         """
         result = pd.DataFrame()
