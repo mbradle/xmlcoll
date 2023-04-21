@@ -15,6 +15,7 @@ New:
 
 Fix:
 
+  * Some documentation links have been fixed.
   * An extraneous import has been removed.
 
 Version 1.3.0
