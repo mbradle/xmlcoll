@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.  This
 project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.html>`_.
 
 
+Version 1.4.0
+-------------
+
+New:
+
+  * Methods to store and retrieve collections as pandas dataframes are now
+    part of the API.
+
+Fix:
+
+  * An extraneous import has been removed.
+
 Version 1.3.0
 -------------
 

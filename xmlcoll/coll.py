@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 import xmlcoll.base as xb
 from lxml import etree
 
@@ -33,7 +34,7 @@ class Collection(xb.Properties):
 
     Args:
         ``items`` (:obj:`list`, optional): A list of individual
-        :obj:`sdxml.sd.Item` objects.
+        :obj:`xmlcoll.coll.Item` objects.
 
     """
 
@@ -48,7 +49,7 @@ class Collection(xb.Properties):
         """Method to add a item to a collection.
 
         Args:
-            ``item`` (:obj:`sdxml.sd.Item`) The item to be added.
+            ``item`` (:obj:`xmlcoll.coll.Item`) The item to be added.
 
         Return:
             On successful return, the item has been added.
@@ -61,7 +62,7 @@ class Collection(xb.Properties):
         """Method to remove a item from a item collection.
 
         Args:
-            ``item`` (:obj:`sdxml.sd.Item`) The item to be removed.
+            ``item`` (:obj:`xmlcoll.coll.Item`) The item to be removed.
 
         Return:
             On successful return, the item has been removed.
@@ -79,6 +80,84 @@ class Collection(xb.Properties):
         """
 
         return self.collection
+
+    def get_dataframe(self, index_label="name", tag_delimiter="_"):
+        """Method to retrieve the collection data as a pandas dataframe.
+
+        Args:
+            ``index_label`` (:obj:`str`, optional): Index label for the
+            dataframe.
+
+            ``tag_delimiter`` (:obj:`str`, optional): Delimiter used
+            to separate tags in combined column names.
+
+
+        Returns:
+            :obj:`pandas.DataFrame`: A pandas dataframe containing the collection
+            data.  Columns are labeled by a string formed by concatenating
+            propoery names and tags separated by the chosen delimiter.
+
+        """
+        result = pd.DataFrame()
+        items = self.collection
+        for item in items:
+            data_line = {}
+            props = items[item].get_properties()
+            for prop in props:
+                str = ""
+                if isinstance(prop, tuple):
+                    for i in range(len(prop)):
+                        str += prop[i]
+                        if i < len(prop) - 1:
+                            str += tag_delimiter.strip()
+                else:
+                    str = prop
+                data_line[str] = [props[prop]]
+
+            df_add = pd.DataFrame(data_line, index=[item])
+            df_add.index.name = index_label
+
+            result = pd.concat([result, df_add])
+
+        return result
+
+    def update_from_dataframe(self, df, index_label="name", tag_delimiter="_"):
+        """Method to update collection data from a pandas dataframe.
+
+        Args:
+            ``df`` (:obj:`pandas.DataFrame`): The pandas dataframe.
+
+            ``index_label`` (:obj:`str`, optional): Index label for the
+            data frame.
+
+            ``tag_delimiter`` (:obj:`str`, optional): Delimiter used
+            to separate tags in combined column names.
+
+
+        Returns:
+            On successful return, the collection has been updated with
+            the data in the data frame.
+
+        """
+        column_names = list(df.columns.values)
+        df = df.reset_index()
+
+        for index, row in df.iterrows():
+            item = Item(row[index_label])
+            props = {}
+            for col in column_names:
+                if col != index_label and col != "index":
+                    if not pd.isna(row[col]):
+                        x = col.split(tag_delimiter)
+                        if len(x) == 1:
+                            c_str = x[0]
+                        else:
+                            c_str = (x[0],)
+                            for i in range(1, len(x)):
+                                c_str = c_str + (x[i],)
+                        props[c_str] = row[col]
+            item.update_properties(props)
+            self.add_item(item)
 
     def write_to_xml(self, file, pretty_print=True):
         """Method to write the collection to XML.
