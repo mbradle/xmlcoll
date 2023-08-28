@@ -1,7 +1,9 @@
+"""Module for XML collections of items."""
+
 import os
 import pandas as pd
-import xmlcoll.base as xb
 from lxml import etree
+import xmlcoll.base as xb
 
 
 class Item(xb.Properties):
@@ -13,6 +15,7 @@ class Item(xb.Properties):
     """
 
     def __init__(self, name, properties=None):
+        super().__init__()
         self.properties = {}
         self.name = name
         if properties:
@@ -39,11 +42,12 @@ class Collection(xb.Properties):
     """
 
     def __init__(self, items=None):
+        super().__init__()
         self.properties = {}
         self.collection = {}
         if items:
-            for s in items:
-                self.collection[s.get_name()] = s
+            for item in items:
+                self.collection[item.get_name()] = item
 
     def add_item(self, item):
         """Method to add a item to a collection.
@@ -93,39 +97,42 @@ class Collection(xb.Properties):
 
 
         Returns:
-            :obj:`pandas.DataFrame`: A pandas dataframe containing the collection
-            data.  Columns are labeled by a string formed by concatenating
-            property names and tags separated by the chosen delimiter.
+            :obj:`pandas.DataFrame`: A pandas dataframe containing the
+            collection data.  Columns are labeled by a string formed by
+            concatenating property names and tags separated by the chosen
+            delimiter.
 
         """
         result = pd.DataFrame()
         items = self.collection
-        for item in items:
+        for key, val in items.items():
             data_line = {}
-            props = items[item].get_properties()
+            props = val.get_properties()
             for prop in props:
-                str = ""
+                my_str = str()
                 if isinstance(prop, tuple):
-                    for i in range(len(prop)):
-                        str += prop[i]
+                    for i, my_prop in enumerate(prop):
+                        my_str += my_prop
                         if i < len(prop) - 1:
-                            str += tag_delimiter.strip()
+                            my_str += tag_delimiter.strip()
                 else:
-                    str = prop
-                data_line[str] = [props[prop]]
+                    my_str = prop
+                data_line[my_str] = [props[prop]]
 
-            df_add = pd.DataFrame(data_line, index=[item])
+            df_add = pd.DataFrame(data_line, index=[key])
             df_add.index.name = index_label
 
             result = pd.concat([result, df_add])
 
         return result
 
-    def update_from_dataframe(self, df, index_label="name", tag_delimiter="_"):
+    def update_from_dataframe(
+        self, data_frame, index_label="name", tag_delimiter="_"
+    ):
         """Method to update collection data from a pandas dataframe.
 
         Args:
-            ``df`` (:obj:`pandas.DataFrame`): The pandas dataframe.
+            ``data_frame`` (:obj:`pandas.DataFrame`): The pandas dataframe.
 
             ``index_label`` (:obj:`str`, optional): Index label for the
             data frame.
@@ -139,23 +146,23 @@ class Collection(xb.Properties):
             the data in the data frame.
 
         """
-        column_names = list(df.columns.values)
-        df = df.reset_index()
+        column_names = list(data_frame.columns.values)
+        data_frame = data_frame.reset_index()
+        my_cols = list(set(column_names) - set((index_label, "index")))
 
-        for index, row in df.iterrows():
+        for _index, row in data_frame.iterrows():
             item = Item(row[index_label])
             props = {}
-            for col in column_names:
-                if col != index_label and col != "index":
-                    if not pd.isna(row[col]):
-                        x = col.split(tag_delimiter)
-                        if len(x) == 1:
-                            c_str = x[0]
-                        else:
-                            c_str = (x[0],)
-                            for i in range(1, len(x)):
-                                c_str = c_str + (x[i],)
-                        props[c_str] = row[col]
+            for col in my_cols:
+                if not pd.isna(row[col]):
+                    result = col.split(tag_delimiter)
+                    if len(result) == 1:
+                        c_str = result[0]
+                    else:
+                        c_str = (result[0],)
+                        for i in range(1, len(result)):
+                            c_str = c_str + (result[i],)
+                    props[c_str] = row[col]
             item.update_properties(props)
             self.add_item(item)
 
@@ -183,15 +190,15 @@ class Collection(xb.Properties):
 
         items = etree.SubElement(root, "items")
 
-        for s in my_coll:
+        for val in my_coll.values():
 
             my_item = etree.SubElement(items, "item")
 
             my_name = etree.SubElement(my_item, "name")
 
-            my_name.text = my_coll[s].get_name()
+            my_name.text = val.get_name()
 
-            self._add_properties(my_item, my_coll[s])
+            self._add_properties(my_item, val)
 
         xml.write(file, pretty_print=pretty_print)
 
@@ -215,7 +222,8 @@ class Collection(xb.Properties):
         """Method to update a item collection from an XML file.
 
         Args:
-            ``file`` (:obj:`str`) The name of the XML file from which to update.
+            ``file`` (:obj:`str`) The name of the XML file from which to
+             update.
 
             ``xpath`` (:obj:`str`, optional): XPath expression to select
             items.  Defaults to all items.
@@ -235,10 +243,10 @@ class Collection(xb.Properties):
 
         el_item = coll.xpath("//item" + xpath)
 
-        for s in el_item:
-            name = s.xpath(".//name")
+        for result in el_item:
+            name = result.xpath(".//name")
             my_item = Item(name[0].text)
-            self._update_properties(s, my_item)
+            self._update_properties(result, my_item)
 
             self.add_item(my_item)
 
@@ -256,8 +264,8 @@ class Collection(xb.Properties):
                     my_props[attributes[my_keys[0]]] = prop.text
                 else:
                     tup = ()
-                    for i in range(len(my_keys)):
-                        tup += (attributes[my_keys[i]],)
+                    for key in my_keys:
+                        tup += (attributes[key],)
                     my_props[tup] = prop.text
 
             my_object.update_properties(my_props)
@@ -277,8 +285,10 @@ class Collection(xb.Properties):
         xml = etree.parse(file, parser)
         xml.xinclude()
 
-        schema_file = os.path.join(os.path.dirname(__file__), "xsd_pub/xmlcoll.xsd")
+        schema_file = os.path.join(
+            os.path.dirname(__file__), "xsd_pub/xmlcoll.xsd"
+        )
         xmlschema_doc = etree.parse(schema_file)
 
         xml_validator = etree.XMLSchema(xmlschema_doc)
-        xml_validator.assert_(xml)
+        xml_validator.validate(xml)

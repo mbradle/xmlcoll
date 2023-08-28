@@ -1,4 +1,6 @@
-max_tags = 5  # Maximum number of tags.
+"""Module providing base property functions."""
+
+MAX_TAGS = 5  # Maximum number of tags.
 
 
 class Properties:
@@ -33,6 +35,6 @@ class Properties:
 
         for prop in properties:
             if isinstance(prop, tuple):
-                assert len(prop) <= max_tags + 1
+                assert len(prop) <= MAX_TAGS + 1
 
         self.properties = {**self.properties, **properties}
