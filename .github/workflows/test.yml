@@ -3,7 +3,8 @@ name: pytest
 on:
   push:
       branches:
-        - feature
+        - develop
+        - main
 
 jobs:
   test:

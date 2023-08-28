@@ -2,7 +2,8 @@ name: pylint
 on:
   push:
       branches:
-        - feature
+        - develop
+        - main
 
 jobs:
   test:

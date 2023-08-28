@@ -3,7 +3,8 @@ name: black
 on:
   push:
       branches:
-        - feature
+        - develop
+        - main
 
 jobs:
   lint:
