@@ -4,6 +4,14 @@ Changelog
 All notable changes to this project will be documented in this file.  This
 project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.html>`_.
 
+Version 1.6.0
+-------------
+
+New:
+
+  * A readthedocs configuration file has been added to allow proper building
+    of the documentation.
+
 Version 1.5.0
 -------------
 
