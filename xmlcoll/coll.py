@@ -123,7 +123,7 @@ class Collection(xb.Properties):
             v_data.append(data_line)
             v_index.append(key)
 
-        result = pd.DataFrame(data = v_data, index = v_index)
+        result = pd.DataFrame(data=v_data, index=v_index)
         result.index.name = index_label
         return result
 
