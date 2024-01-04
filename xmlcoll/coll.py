@@ -103,8 +103,9 @@ class Collection(xb.Properties):
             delimiter.
 
         """
-        result = pd.DataFrame()
         items = self.collection
+        v_df = []
+        v_columns = []
         for key, val in items.items():
             data_line = {}
             props = val.get_properties()
@@ -118,13 +119,18 @@ class Collection(xb.Properties):
                 else:
                     my_str = prop
                 data_line[my_str] = [props[prop]]
+                if my_str not in v_columns:
+                    v_columns.append(my_str)
 
             df_add = pd.DataFrame(data_line, index=[key])
             df_add.index.name = index_label
+            v_df.append(df_add)
 
-            result = pd.concat([result, df_add])
-
-        return result
+        result = pd.DataFrame(columns = v_columns)
+        v = [result]
+        for vv in v_df:
+            v.append(vv)
+        return pd.concat(v)
 
     def update_from_dataframe(
         self, data_frame, index_label="name", tag_delimiter="_"
