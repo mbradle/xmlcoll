@@ -8,7 +8,7 @@ name and optional tags.  The package API has routines to write data to and
 retrieve data from `XML <https://www.w3.org/XML/>`_ and to validate that
 XML against a schema.
 
-|pypi| |doc_stat| |license| |test| |lint| |lint-test| |black|
+|pypi| |doc_stat| |license| |test| |lint-test| |black|
 
 Installation
 ------------
