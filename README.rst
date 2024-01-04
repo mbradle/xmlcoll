@@ -1,7 +1,8 @@
 Overview
 ========
 
-[![DOI](https://zenodo.org/badge/541709014.svg)](https://zenodo.org/doi/10.5281/zenodo.10460076)
+.. image:: https://zenodo.org/badge/541709014.svg
+  :target: https://zenodo.org/doi/10.5281/zenodo.10460076
 
 xmlcoll is a python package for working with collections of items.
 The items have heterogeneous data stored as
