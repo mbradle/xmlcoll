@@ -152,20 +152,19 @@ class Collection(xb.Properties):
         my_cols = list(set(column_names) - set((index_label, "index")))
 
         for _index, row in data_frame.iterrows():
-            item = Item(row[index_label])
-            props = {}
-            for col in my_cols:
-                if not pd.isna(row[col]):
-                    result = col.split(tag_delimiter)
-                    if len(result) == 1:
-                        c_str = result[0]
-                    else:
-                        c_str = (result[0],)
-                        for i in range(1, len(result)):
-                            c_str = c_str + (result[i],)
-                    props[c_str] = row[col]
-            item.update_properties(props)
-            self.add_item(item)
+            if not pd.isna(row[index_label]):
+                item = Item(row[index_label])
+                props = {}
+                for col in my_cols:
+                    if not pd.isna(row[col]):
+                        result = col.split(tag_delimiter)
+                        if len(result) == 1:
+                            c_str = result[0]
+                        else:
+                            c_str = tuple(result)
+                        props[c_str] = row[col]
+                item.update_properties(props)
+                self.add_item(item)
 
     def write_to_xml(self, file, pretty_print=True):
         """Method to write the collection to XML.
