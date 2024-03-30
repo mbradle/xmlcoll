@@ -259,14 +259,10 @@ class Collection(xb.Properties):
             my_props = {}
             for prop in props:
                 attributes = prop.attrib
-                my_keys = attributes.keys()
-                if len(my_keys) == 1:
-                    my_props[attributes[my_keys[0]]] = prop.text
+                if len(attributes) == 1:
+                    my_props[attributes.values()[0]] = prop.text
                 else:
-                    tup = ()
-                    for key in my_keys:
-                        tup += (attributes[key],)
-                    my_props[tup] = prop.text
+                    my_props[tuple(attributes.values())] = prop.text
 
             my_object.update_properties(my_props)
 
