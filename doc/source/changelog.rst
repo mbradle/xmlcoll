@@ -4,6 +4,14 @@ Changelog
 All notable changes to this project will be documented in this file.  This
 project adheres to `Semantic Versioning <http://semver.org/spec/v2.0.0.html>`_.
 
+Version 1.8.0
+-------------
+
+New:
+
+  * It is now possible to update the name of an item in a collection
+    with a collection class method.
+
 Version 1.7.2
 -------------
 

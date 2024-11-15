@@ -288,3 +288,20 @@ class Collection(xb.Properties):
 
         xml_validator = etree.XMLSchema(xmlschema_doc)
         xml_validator.validate(xml)
+
+    def update_item_name(self, old_name, new_name):
+        """Method to update the name of an item in a collection.
+
+        Args:
+            ``old_name`` (:obj:`str`) The current name of the item.
+
+            ``new_name`` (:obj:`str`) The updated name for the item.
+
+        Returns:
+            On successful return, the name of the item in the collection
+            has been updated from *old_name* to *new_name*.
+
+        """
+
+        self.collection[old_name].name = new_name
+        self.collection[new_name] = self.collection.pop(old_name)
