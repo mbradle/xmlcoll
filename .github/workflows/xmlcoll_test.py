@@ -43,6 +43,7 @@ def test_update_name():
     assert "Guernica" in coll.get()
     coll.update_item_name("Guernica", "Picasso's Guernica")
     assert "Guernica" not in coll.get() and "Picasso's Guernica" in coll.get()
+    assert coll.get()["Picasso's Guernica"].get_name() == "Picasso's Guernica"
 
 
 def test_write(tmpdir):
