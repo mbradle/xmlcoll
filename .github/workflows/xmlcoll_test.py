@@ -38,6 +38,13 @@ def test_xpath():
     assert len(coll.get()) > 0
 
 
+def test_update_name():
+    coll = get_collection()
+    assert "Guernica" in coll.get()
+    coll.update_item_name("Guernica", "Picasso's Guernica")
+    assert "Guernica" not in coll.get() and "Picasso's Guernica" in coll.get()
+
+
 def test_write(tmpdir):
     coll = get_collection()
     file = tmpdir.join("out.xml")
