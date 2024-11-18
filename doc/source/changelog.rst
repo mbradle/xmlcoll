@@ -11,6 +11,7 @@ Internal:
 
   * A regression test on properties has been added.
   * A documentation note has been added to the *update_item_name* method.
+  * The package description has been clarified.
 
 Version 1.8.0
 -------------

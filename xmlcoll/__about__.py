@@ -1,5 +1,5 @@
 """
-A package of python routines to work with data in XML format of samples.
+A package of python routines to work with collections of items in XML format.
 """
 __all__ = [
     "__title__",
