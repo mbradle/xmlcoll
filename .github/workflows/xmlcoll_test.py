@@ -63,3 +63,15 @@ def test_dataframe(tmpdir):
     assert not reduced_collection.update_from_dataframe(df_new)
     file2 = tmpdir.join("out2.xml")
     assert not reduced_collection.write_to_xml(str(file2))
+
+def test_properties():
+    coll = get_collection()
+    item = coll.get()['The Sleeping Gypsy'] 
+    assert item.get_properties()['date'] == '1897'
+    assert 'favorite' not in item.get_properties()
+    item.update_properties({'date': '1896', 'favorite': 'true'})
+    assert item.get_properties()['date'] == '1896'
+    assert 'favorite' in item.get_properties()
+    item.get_properties()['my favorite'] = item.get_properties().pop('favorite')
+    assert 'favorite' not in item.get_properties()
+    assert 'my favorite' in item.get_properties()
