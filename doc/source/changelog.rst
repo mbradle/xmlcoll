@@ -10,6 +10,7 @@ Version 1.8.1
 Internal:
 
   * A regression test on properties has been added.
+  * A documentation note has been added to the *update_item_name* method.
 
 Version 1.8.0
 -------------

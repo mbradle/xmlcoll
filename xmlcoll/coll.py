@@ -290,7 +290,10 @@ class Collection(xb.Properties):
         xml_validator.validate(xml)
 
     def update_item_name(self, old_name, new_name):
-        """Method to update the name of an item in a collection.
+        """Method to update the name of an item in a collection.  This \
+           method is necessary (as compared to simply popping the \
+           item into a new entry) because the item carries its own name, \
+           which must be updated also.
 
         Args:
             ``old_name`` (:obj:`str`) The current name of the item.
