@@ -5,8 +5,8 @@ authors:
   given-names: "Bradley Stewart"
   orcid: "https://orcid.org/0000-0001-6307-9818"
 title: "xmlcoll"
-version: 1.7.1
+version: 1.8.3
 doi: 10.5281/zenodo.10460076
-date-released: 2024-01-04
+date-released: 2024-11-25
 url: "https://github.com/mbradle/xmlcoll"
 
