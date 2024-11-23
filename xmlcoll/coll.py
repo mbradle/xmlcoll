@@ -306,5 +306,7 @@ class Collection(xb.Properties):
 
         """
 
+        assert old_name in self.collection, "Item not in collection."
+
         self.collection[old_name].name = new_name
         self.collection[new_name] = self.collection.pop(old_name)
